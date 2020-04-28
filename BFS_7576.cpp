@@ -1,62 +1,69 @@
-//길찾기 bfs는 단방향 진행이지만
-//지금 푸는 문제는 다발성 문제이다.
-
 #include <iostream>
-#include <string>
-#include <algorithm>
-#include <vector>
+#include <cstdio>
 #include <queue>
 
 using namespace std;
 
-bool flag = false;
-int day = 0;
-int M, N;
-int nx, ny;
+int n,m;
 int box[1001][1001];
 int check[1001][1001];
 int dx[] = {1,-1,0,0};
 int dy[] = {0,0,1,-1};
 
-void bfs(int x, int y){
+
+int main(){
+    cin >> m >> n;
     queue<pair<int,int>> q;
-    q.push(make_pair(x,y));
-    check[x][y] = 1;
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            cin >> box[i][j];
+            check[i][j] = -1; //-1이 방문하지 않은 상태
+
+            if(box[i][j] == 1){
+                q.push(make_pair(i,j));
+                check[i][j] = 0;
+            }
+        }
+    }
+
     while(!q.empty()){
         int x = q.front().first;
         int y = q.front().second;
         q.pop();
+
         for(int k=0; k<4; k++){
-            nx = x+dx[k];
-            ny = y+dy[k];
-            if(0<= nx && nx < M && 0 <= ny && ny < N){
-                if(box[nx][ny] == 0 && check[nx][ny] == 0){
+            int nx = x+dx[k];
+            int ny = y+dy[k];
+
+            if(0 <= nx && nx < n && 0 <= ny && ny < m){
+                if(box[nx][ny] == 0 && check[nx][ny] == -1){
                     q.push(make_pair(nx,ny));
-                    check[nx][ny] = 1;
-                    flag = true;
+                    check[nx][ny] = check[x][y] + 1;
                 }
             }
         }
-        if(flag == true) day++;
-        flag = false;
-    }
-}
-
-int main(){
-    cin >> M >> N;
-    for(int i=0; i<M; i++){
-        for(int j=0; j<N; j++){
-            cin >> box[i][j];
-        }
     }
 
-    for(int i=0; i<M; i++){
-        for(int j=0; j<N; j++){
-            if(box[i][j] == 1){
-                bfs(i,j);
+    int max_day = 0;
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            if(check[i][j] > max_day) {
+                max_day = check[i][j];
             }
         }
     }
-    cout << day << endl;
-}
 
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            if(box[i][j] == 0 && check[i][j] == -1) {
+                max_day = -1;
+            }
+        }
+    }
+
+
+    cout << max_day << endl;
+
+}
