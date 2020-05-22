@@ -63,7 +63,6 @@ int main(){
     }
 
 
-    if(max < cnt) max = cnt;
 
     cout << max << endl;
     

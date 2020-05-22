@@ -35,7 +35,6 @@ void bfs(int x, int y, char alpha, int cnt){
 }
 
 int main(){
-    memset(d, 'z', sizeof(d));
     cin >> n;
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
@@ -48,7 +47,7 @@ int main(){
 
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
-            if(d[i][j] != 'z' && c[i][j] == 0) bfs(i,j,d[i][j], ++cnt);
+            if(c[i][j] == 0) bfs(i,j,d[i][j], ++cnt);
         }
     }
 
@@ -62,7 +61,7 @@ int main(){
 
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
-            if(d[i][j] != 'z' && c[i][j] == 0) bfs(i,j,d[i][j], ++cnt_2);
+            if(c[i][j] == 0) bfs(i,j,d[i][j], ++cnt_2);
         }
     }
 
